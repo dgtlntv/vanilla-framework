@@ -95,6 +95,32 @@ def _get_examples():
 
     return examples
 
+def examples_2_wasabi():
+    example_files = glob.glob(
+        "templates/docs/examples/*/**/[!_]*.html", recursive=True
+    )
+    
+    aggregated_content = ""
+
+    for filepath in sorted(example_files):
+        # Remove "templates/" prefix
+        docs_length = len("templates/")
+        template_path = filepath[docs_length:]
+        
+        # Get the Jinja2 template object for the file
+        template = flask.current_app.jinja_env.get_template(template_path)
+        
+        print(template_path)
+
+        # Render the template and aggregate
+        rendered_content = template.render()
+        aggregated_content += f"\n<!-- Start of {template_path} -->\n"
+        aggregated_content += rendered_content
+        aggregated_content += f"\n<!-- End of {template_path} -->\n"
+
+    return aggregated_content
+
+
 
 def _make_github_request(endpoint):
     github_secret = os.getenv("GITHUB_TOKEN")
@@ -220,6 +246,11 @@ def utility_processor():
 
 
 template_finder_view = TemplateFinder.as_view("template_finder")
+
+@app.route('/wasabi')
+def wasabi_page():
+    aggregated_content = examples_2_wasabi()
+    return flask.render_template('wasabi/index.html', content=aggregated_content)
 
 
 @app.route("/docs/examples")
