@@ -7,7 +7,7 @@ import yaml
 import urllib
 import markupsafe
 import mistune
-
+import re
 # Packages
 import talisker.requests
 import requests
@@ -95,31 +95,51 @@ def _get_examples():
 
     return examples
 
-def examples_2_wasabi():
+def _get_all_examples():
+    # get all example files (but ignore partials that start with _)
     example_files = glob.glob(
         "templates/docs/examples/*/**/[!_]*.html", recursive=True
     )
-    
-    aggregated_content = ""
+
+    # Filter out unwanted paths
+    ignored_paths = [
+        "templates/docs/examples/brochure",
+        "templates/docs/examples/layouts",
+        "templates/docs/examples/templates",
+        "templates/docs/examples/utilities",
+        "templates/docs/examples/patterns/modal",
+        "templates/docs/examples/patterns/grid",
+        "templates/docs/examples/patterns/logo-section"
+    ]
+    example_files = [f for f in example_files if not any(path in f for path in ignored_paths)]
+
+    examples = {}
 
     for filepath in sorted(example_files):
         # Remove "templates/" prefix
         docs_length = len("templates/")
+
+        # Get template object
         template_path = filepath[docs_length:]
-        
-        # Get the Jinja2 template object for the file
         template = flask.current_app.jinja_env.get_template(template_path)
-        
-        print(template_path)
 
-        # Render the template and aggregate
-        rendered_content = template.render()
-        aggregated_content += f"\n<!-- Start of {template_path} -->\n"
-        aggregated_content += rendered_content
-        aggregated_content += f"\n<!-- End of {template_path} -->\n"
+        # Remove "docs/examples/"
+        examples_length = len("docs/examples/")
+        # Remove "docs/examples/" and extension for the path
+        example_path = os.path.splitext(template_path[examples_length:])[0]
 
-    return aggregated_content
+        outermost_parent = example_path.split(os.sep).pop(0)
 
+        title = example_path
+
+        if "title" in template.blocks:
+            title = next(template.blocks["title"](template.new_context({})))
+
+        examples.setdefault(outermost_parent, []).append(
+            {"path": example_path, "title": title}
+        )
+
+    return examples
 
 
 def _make_github_request(endpoint):
@@ -247,12 +267,6 @@ def utility_processor():
 
 template_finder_view = TemplateFinder.as_view("template_finder")
 
-@app.route('/wasabi')
-def wasabi_page():
-    aggregated_content = examples_2_wasabi()
-    return flask.render_template('wasabi/index.html', content=aggregated_content)
-
-
 @app.route("/docs/examples")
 def examples_index():
     return flask.render_template(
@@ -275,6 +289,38 @@ def standalone_example(example_path):
         )
     except jinja2.exceptions.TemplateNotFound:
         return flask.abort(404)
+
+@app.route("/docs/examples/all")
+def all_examples():
+    examples = _get_all_examples()
+
+    structured_examples = []
+    for category, ex_list in examples.items():
+        for ex in ex_list:
+            example_template_path = f"docs/examples/{ex['path']}.html"
+            with open(os.path.join("templates", example_template_path), 'r') as f:
+                content = f.read()
+
+                # Extract title using regex
+                title_match = re.search(r'{% block title %}(.*?){% endblock %}', content, re.DOTALL)
+                title_content = title_match.group(1).strip() if title_match else ""
+
+                # Remove the blocks
+                content = content.replace('{% extends "_layouts/examples.html" %}', '')
+                content = re.sub(r'<style.*?>.*?</style>', '', content, flags=re.DOTALL)
+                content = re.sub(r'{% block title %}.*?{% endblock %}', '', content, flags=re.DOTALL)
+                content = re.sub(r'{% block standalone_css %}.*?{% endblock %}', '', content, flags=re.DOTALL)
+
+                # Render the modified content
+                rendered_content = flask.render_template_string(content)
+                
+                # Append the title and content to structured_examples
+                structured_examples.append({
+                    'title': title_content,
+                    'content': rendered_content
+                })
+
+    return flask.render_template("docs/examples/all_examples.html", examples=structured_examples)
 
 
 @app.route("/contribute")

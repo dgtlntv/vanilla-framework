@@ -2,12 +2,16 @@
 
 <html lang="en">
   <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{% block title %}{% endblock %}{% if self.title() %} | {% endif %}Examples | Vanilla framework documentation</title>
 
     {% if is_standalone %}
-    <link rel="stylesheet" type="text/css" href="{{ versioned_static('build/css/standalone/' + (self.standalone_css() if self.standalone_css is defined else 'base') + '.css') }}" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ versioned_static('build/css/standalone/' + (self.standalone_css() if self.standalone_css is defined else 'base') + '.css') }}"
+    />
     {% else %}
     <link rel="stylesheet" type="text/css" href="{{ versioned_static('build/css/build.css') }}" />
     {% endif %}
@@ -16,8 +20,8 @@
     {% block style %}{% endblock %}
 
     <script>
-      (function() {
-        function inIframe () {
+      (function () {
+        function inIframe() {
           try {
             return window.self !== window.top;
           } catch (e) {
@@ -32,11 +36,13 @@
         }
 
         if (!inIframe()) {
-          document.documentElement.classList.add("u-baseline-grid");
+          document.documentElement.classList.add('u-baseline-grid');
 
-          document.addEventListener('DOMContentLoaded', function() {
+          document.addEventListener('DOMContentLoaded', function () {
             var body = document.body;
-            var controls = fragmentFromString('<div class="u-baseline-grid__toggle"><label class="p-switch"><input type="checkbox" class="p-switch__input js-baseline-toggle" /><span class="p-switch__slider"></span><span class="p-switch__label">Toggle baseline grid</span></label></div>');
+            var controls = fragmentFromString(
+              '<div class="u-baseline-grid__toggle"><label class="p-switch"><input type="checkbox" class="p-switch__input js-baseline-toggle" /><span class="p-switch__slider"></span><span class="p-switch__label">Toggle baseline grid</span></label></div>'
+            );
             body.appendChild(controls);
 
             var toggle = document.querySelector('.js-baseline-toggle');
@@ -49,7 +55,7 @@
     </script>
   </head>
 
-  <body {% if is_paper %}class="is-paper"{% endif %}>
+  <body {% if is_paper %}class="is-paper" {% endif %}>
     {% block content %}{% endblock %}
   </body>
 </html>
