@@ -1,0 +1,19 @@
+@import "./scss/vanilla";
+@include vanilla;
+
+.parent {
+    margin: 24px;
+}
+
+.grid-parent {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.grid-parent > * {
+    padding: 16px;
+    border-width: 1px;
+    border-color: gray;
+    border-style: solid;
+}
