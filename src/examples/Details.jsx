@@ -1,0 +1,16 @@
+export default function Details() {
+    return (
+        <>
+            <h3>Details</h3>
+            <hr />
+            <details>
+                <summary>Manually create a network on a 10.x.x.x subnet</summary>
+                <p>
+                    If you try to run <code>lxd init</code> on a system that is connected to a network with a{" "}
+                    <code>10.x.x.x</code>
+                    subnet, then the final step of the Iinit* may fail with the following error:
+                </p>
+            </details>
+        </>
+    )
+}
