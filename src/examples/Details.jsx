@@ -1,8 +1,8 @@
+import Example from "../components/Example"
+
 export default function Details() {
     return (
-        <>
-            <h3>Details</h3>
-            <hr />
+        <Example title="Details">
             <details>
                 <summary>Manually create a network on a 10.x.x.x subnet</summary>
                 <p>
@@ -11,6 +11,6 @@ export default function Details() {
                     subnet, then the final step of the Iinit* may fail with the following error:
                 </p>
             </details>
-        </>
+        </Example>
     )
 }

@@ -1,8 +1,8 @@
+import Example from "../components/Example"
+
 export default function Hr() {
     return (
-        <>
-            <h3>Horizontal Rule</h3>
-            <hr />
+        <Example title="Horizontal rule">
             <h4>HR muted</h4>
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
@@ -23,6 +23,6 @@ export default function Hr() {
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
                 dolore magna aliqua.
             </p>
-        </>
+        </Example>
     )
 }

@@ -1,5 +1,6 @@
 @import "./scss/vanilla";
 @include vanilla;
+@import "./scss/settings";
 
 .parent {
     margin: 24px;
@@ -16,4 +17,12 @@
     border-width: 1px;
     border-color: gray;
     border-style: solid;
+}
+
+.link-hardcoded {
+    color: $color-link !important;
+}
+
+.link-visited-hardcoded {
+    color: $color-link-visited !important;
 }

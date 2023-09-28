@@ -1,8 +1,8 @@
+import Example from "../components/Example"
+
 export function Blockquote() {
     return (
-        <>
-            <h3>Blockquote</h3>
-            <hr />
+        <Example title="Blockquote">
             <blockquote>
                 <p>
                     “Ubuntu is an ancient African word meaning ‘humanity to others’. Ubuntu is an ancient African word
@@ -12,6 +12,6 @@ export function Blockquote() {
                     <cite>Canonical</cite>
                 </p>
             </blockquote>
-        </>
+        </Example>
     )
 }

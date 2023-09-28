@@ -6,6 +6,13 @@ import FontWeights from "./examples/FontWeights"
 import Headings from "./examples/Headings"
 import Hr from "./examples/Hr"
 import Links from "./examples/Links"
+import Pre from "./examples/Pre"
+import Small from "./examples/Small"
+import Strong from "./examples/Strong"
+import Sub from "./examples/Sub"
+import Sup from "./examples/Sup"
+import Table from "./examples/Table"
+import VariableFont from "./examples/VariableFont"
 import { Abbr } from "./examples/abbr"
 import { Blockquote } from "./examples/blockquote"
 
@@ -45,8 +52,29 @@ function App() {
                 <div style={{ gridColumn: "span 2", gridRow: "span 1" }}>
                     <Hr />
                 </div>
-                <div>
+                <div style={{ gridColumn: "span 1", gridRow: "span 1" }}>
                     <Links />
+                </div>
+                <div style={{ gridColumn: "span 4", gridRow: "span 1" }}>
+                    <Pre />
+                </div>
+                <div style={{ gridColumn: "span 1", gridRow: "span 1" }}>
+                    <Small />
+                </div>
+                <div style={{ gridColumn: "span 1", gridRow: "span 1" }}>
+                    <Strong />
+                </div>
+                <div style={{ gridColumn: "span 1", gridRow: "span 1" }}>
+                    <Sub />
+                </div>
+                <div style={{ gridColumn: "span 1", gridRow: "span 1" }}>
+                    <Sup />
+                </div>
+                <div style={{ gridColumn: "span 3", gridRow: "span 3" }}>
+                    <Table />
+                </div>
+                <div style={{ gridColumn: "span 2", gridRow: "span 2" }}>
+                    <VariableFont />
                 </div>
             </div>
         </div>

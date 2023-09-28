@@ -1,8 +1,8 @@
+import Example from "../components/Example"
+
 export default function Buttons() {
     return (
-        <>
-            <h3>Buttons</h3>
-            <hr />
+        <Example title="Buttons">
             <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: "8px" }}>
                 <div>
                     <button className="p-button">Default</button>
@@ -61,6 +61,6 @@ export default function Buttons() {
                     <button className="p-button is-small is-dense">This is a small, dense button</button>
                 </div>
             </div>
-        </>
+        </Example>
     )
 }

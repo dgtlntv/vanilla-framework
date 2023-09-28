@@ -1,13 +1,13 @@
+import Example from "../components/Example"
+
 export default function CodeBlock() {
     return (
-        <>
-            <h3>Code block</h3>
-            <hr />
+        <Example title="Code block">
             <pre>
                 <code>{`function() {
     alert("Hello world");
 }`}</code>
             </pre>
-        </>
+        </Example>
     )
 }
