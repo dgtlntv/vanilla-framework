@@ -1,6 +1,6 @@
 import chroma from "chroma-js"
 import { useEffect, useState } from "react"
-import { apcach, crToBg, apcachToCss } from "apcach"
+import { apcach, crToBg, apcachToCss, maxChroma } from "apcach"
 
 export default function Palette() {
     const [finalShades, setFinalShades] = useState(null)
@@ -14,36 +14,49 @@ export default function Palette() {
         gray: "#666666",
         turquoise: "#0f95a1"
     }
-    const contrastSteps = { 1000: 105, 900: 100, 800: 90, 700: 77, 600: 65 }
+    //adjusted L and C to be the same as brand color
+    const canonicalOklchPalette = {
+        red: [0.6405077375366084, 0.19407761553760028, 23.583148148376438],
+        yellow: [0.6405077375366084, 0.19407761553760028, 66.80505094102949],
+        green: [0.6405077375366084, 0.19407761553760028, 144.255065390435],
+        blue: [0.6405077375366084, 0.19407761553760028, 251.57249685060697],
+        orange: [0.6405077375366084, 0.19407761553760028, 37.75620691492935],
+        gray: [0.6405077375366084, 0, 0],
+        turquoise: [0.6405077375366084, 0.19407761553760028, 205.0987927033523]
+    }
+
+    const contrastSteps = { 1000: 105, 900: 100, 800: 90, 700: 77, 600: 54 }
     const lightBg = "#FFF"
     const darkBg = "#111"
 
     function hexToOklch(hex) {
         if (hex == "#666666") {
-            return [51.03, 0, 0]
+            return [0.5103, 0, 0]
         }
 
         return chroma(hex).oklch()
     }
 
     useEffect(() => {
-        const canonicalOklchPalette = {}
-
         const canonicalShadedPalette = {}
-
-        for (const [name, value] of Object.entries(canonicalPalette)) {
-            canonicalOklchPalette[name] = hexToOklch(value)
-        }
 
         for (const [name, [l, c, h]] of Object.entries(canonicalOklchPalette)) {
             const shades = {}
             for (const [name, contrast] of Object.entries(contrastSteps)) {
-                const colorLight = apcach(crToBg(lightBg, contrast), c, h)
-                const lightName = 1000 - name == 0 ? "00" : 1000 - name
-                shades[lightName] = apcachToCss(colorLight, "oklch")
+                const colorDark = apcach(
+                    crToBg(lightBg, contrast, "apca", "darker"),
+                    maxChroma(c),
+                    h
+                )
+                const darkName = 1100 - name
+                shades[darkName] = apcachToCss(colorDark, "oklch")
 
-                const colorDark = apcach(crToBg(darkBg, contrast), c, h)
-                shades[name] = apcachToCss(colorDark, "oklch")
+                const colorLight = apcach(
+                    crToBg(darkBg, contrast, "apca", "lighter"),
+                    maxChroma(c),
+                    h
+                )
+                shades[name] = apcachToCss(colorLight, "oklch")
             }
             shades[500] = `oklch(${l} ${c} ${h})`
             canonicalShadedPalette[name] = shades
@@ -67,7 +80,7 @@ export default function Palette() {
                                 }}
                             >
                                 {Object.keys(finalShades[colorName])
-                                    .sort((a, b) => (a === "00" ? -1 : a - b))
+                                    .sort((a, b) => a - b)
                                     .map((shade) => (
                                         <div
                                             key={shade}
