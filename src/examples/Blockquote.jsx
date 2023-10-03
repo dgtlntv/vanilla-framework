@@ -1,6 +1,6 @@
 import Example from "../components/Example"
 
-export function Blockquote() {
+export default function Blockquote() {
     return (
         <Example title="Blockquote">
             <blockquote>

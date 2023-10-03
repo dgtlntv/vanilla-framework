@@ -1,0 +1,20 @@
+import Example from "../components/Example"
+
+export default function Datalist() {
+    return (
+        <Example title="Datalist">
+            <form>
+                <label htmlFor="ice-cream-choice">Choose a flavor:</label>
+                <input type="text" list="ice-cream-flavors" id="ice-cream-choice" name="ice-cream-choice" />
+
+                <datalist id="ice-cream-flavors">
+                    <option value="Vanilla">Vanilla</option>
+                    <option value="Chocolate">Chocolate</option>
+                    <option value="Coconut">Coconut</option>
+                    <option value="Mint">Mint</option>
+                    <option value="Strawberry">Strawberry</option>
+                </datalist>
+            </form>
+        </Example>
+    )
+}
