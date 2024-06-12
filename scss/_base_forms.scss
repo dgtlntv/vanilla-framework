@@ -101,6 +101,7 @@
   label {
     cursor: pointer;
     display: inline-block;
+    line-height: map-get($line-heights, default-text);
     margin-bottom: $spv--large - $spv-nudge;
     margin-top: 0;
     max-width: $text-max-width;
@@ -184,7 +185,7 @@
     -webkit-appearance: none;
     appearance: none;
     // stylelint-enable property-no-vendor-prefix
-    background-position: right calc(map-get($grid-margin-widths, default) / 2) center;
+    background-position: right $sph--small center;
     background-repeat: no-repeat;
     background-size: map-get($icon-sizes, default);
     box-shadow: none;

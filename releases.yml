@@ -1,9 +1,31 @@
+- version: 4.12.0
+  features:
+    - component: Typography
+      url: /docs/base/typography
+      status: New
+      notes: "We've added the new <code>text-wrap: pretty</code> value to avoid text widows on all elements."
+    - component: Icons
+      url: /docs/patterns/icons
+      status: Updated
+      notes: "We've added left and right (<code>.p-icon--chevron-left</code> and <code>.p-icon--chevron-right</code>) variants of the chevron icon."
 - version: 4.11.0
   features:
     - component: Suru / Divider
       url: /docs/patterns/suru#divider-suru
       status: New
       notes: We've introduced a new divider variant of the Suru section component.
+    - component: Table layout
+      url: /docs/settings/table-layout
+      status: Updated
+      notes: We've updated the utility classes (<code>u-table-layout--auto</code> and <code>u-table-layout--fixed</code>) to apply to nested tables.
+    - component: Hero
+      url: /docs/patterns/hero
+      status: New
+      notes: We've introduced new detailed documenation for the hero pattern.
+    - component: Equal height row / Dividers
+      url: /docs/patterns/equal-height-row#cross-column-dividers
+      status: Updated
+      notes: We've updated the equal height row component divider class names and removed the dividers from smaller screens.
 - version: 4.10.0
   features:
     - component: Navigation / Themes
